@@ -46,7 +46,7 @@ submit.addEventListener("click", () => {
     password
   }
 
-  postData(`${ulrDev}/api/user/reguster`, data)
+  postData(`${urlPro}/api/user/reguster`, data)
   .then((data) => {
     // console.log(data); // JSON data parsed by `data.json()` call
 

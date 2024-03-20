@@ -13,7 +13,7 @@ login.addEventListener("click", () => {
     password
   }
 
-  postData(`${ulrDev}/api/user/login`, data)
+  postData(`${urlPro}/api/user/login`, data)
   .then((data) => {
     console.log(data); // JSON data parsed by `data.json()` call
 

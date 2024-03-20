@@ -1,12 +1,11 @@
 const body = document.body;
 // const Uname = document.getElementById("Uname");
-let ulrDev = "http://localhost:8000"
-let urlPro = "https://hi-chat-t4sd.onrender.com"
+let ulr = "https://hi-chat-t4sd.onrender.com"
 
 let user;
 
 (function currentUser(){
-     getRoom(`${ulrDev}/api/user/current`,"GET")
+     getRoom(`${ulr}/api/user/current`,"GET")
      .then((res)=>{
        user = res.data
     //    console.log(user);
@@ -134,7 +133,7 @@ function sendMassage(roomid){
             text:mas
         }
         
-        fetch(`${ulrDev}/api/chat/${roomid}`, {
+        fetch(`${ulr}/api/chat/${roomid}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -175,9 +174,10 @@ function recieverMessage(text,user){
 
 function deleteChat(id){
     const data = {}
-    postData(`${ulrDev}/api/chat/${id}`, data, "DELETE")
+    postData(`${ulr}/api/chat/${id}`, data, "DELETE")
     .then((res)=>{
-        console.log(res);
+        // console.log(res);
+        alert("Chat Deleted");
     })
     .catch((err)=>{
         alert(err);
@@ -188,16 +188,17 @@ function deleteRoom(id){
     console.log(id);
     
     const data = {}
-    postData(`${ulrDev}/api/room/${id}`, data, "DELETE")
+    postData(`${ulr}/api/room/${id}`, data, "DELETE")
     .then((res)=>{
-        console.log(res);
+        // console.log(res);
+        alert("Room Deleted");
     })
     .catch((err)=>{
         alert(err);
     })
 }
 
-getRoom(`${ulrDev}/api/room`, "GET").then((data) => {
+getRoom(`${ulr}/api/room`, "GET").then((data) => {
     console.log(data.data);
     const arr = data.data
     let room;
@@ -229,7 +230,7 @@ getRoom(`${ulrDev}/api/room`, "GET").then((data) => {
             // console.log(e.target.parentElement.id);
             room = e.target.parentElement.id;
 
-            getRoom(`${ulrDev}/api/chat/${e.target.parentElement.id}`,"GET")
+            getRoom(`${ulr}/api/chat/${e.target.parentElement.id}`,"GET")
 
                 .then((res) => {
                     // console.log(res);
@@ -299,7 +300,7 @@ makeNewRoom.addEventListener('click', (event) => {
             discription: dis
         }
 
-        postData(`${ulrDev}/api/room/create`, data, "POST")
+        postData(`${ulr}/api/room/create`, data, "POST")
             .then(() => {
                 location.reload()
             })
@@ -325,7 +326,7 @@ const logout = document.getElementById("logout")
 logout.addEventListener('click',(e)=>{
     e.stopPropagation()
     const data = {}
-    postData(`${ulrDev}/api/user/logout`, data, "POST")
+    postData(`${ulr}/api/user/logout`, data, "POST")
     .then(()=>{
         window.location.href = "./login.html"
     })
