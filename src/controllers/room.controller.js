@@ -34,7 +34,7 @@ const deleteRoom = asyncHandler(async (req,res)=>{
     if (!userId.equals(room.owner)) {
       throw new ApiError(403, 'You do not have permission to perform this action');
     }
-    const deleted = Room.findByIdAndDelete(roomId)
+    const deleted = await Room.findByIdAndDelete(roomId)
     if(!deleted){
         throw new ApiError(500,"ther is an problem ehile deleteing room")
     }
@@ -107,7 +107,7 @@ const getAllRooms = asyncHandler(async(req,res)=>{
 
     return res
     .status(200)
-    .json(new ApiResponce(200,[rooms,userName],"Done"))
+    .json(new ApiResponce(200,rooms,"Done"))
 })
 
 export {

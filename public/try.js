@@ -1,18 +1,41 @@
 const body = document.body;
 // const Uname = document.getElementById("Uname");
+let ulrDev = "http://localhost:8000"
+let urlPro = "https://hi-chat-t4sd.onrender.com"
 
-function makeRoom(name, discription, id) {
+let user;
+
+(function currentUser(){
+     getRoom(`${ulrDev}/api/user/current`,"GET")
+     .then((res)=>{
+       user = res.data
+    //    console.log(user);
+       
+     })
+     .catch((err)=>{
+      alert(err);
+    })
+})();
+
+function makeRoom(name, discription, id,owner) {
     const div = document.createElement("div")
     div.classList.add("flex", "flex-col", "gap-2", "w-60", "bg-slate-300", "text-center", "rounded-lg", "h-fit");
     div.innerHTML = `<span>${name}</span>
     <hr>
     <p>${discription}</p>
     <hr>
-    <div id="${id}" class="roomb flex flex-row gap-2 items-center justify-center mb-2">
-        <button class="bg-[#1da1f2] text-white rounded-lg w-40 p-1 hover:bg-violet-800" >Chat</button>
-        <button><img src="delete-svgrepo-com.svg" class="w-8" alt="D"></button>
+    <div id="${id}" class="elegible flex flex-row gap-2 items-center justify-center mb-2">
+        <button class="roomb bg-[#1da1f2] text-white rounded-lg w-40 p-1 hover:bg-violet-800" >Chat</button>
     </div>`
-
+    if(owner === user._id){
+        // console.log(user , owner);
+        
+        const del = document.createElement("button")
+        del.classList.add("delete")
+        del.innerHTML =`<img src="delete-svgrepo-com.svg" class="w-8" alt="D">`
+        const btn = div.querySelector(".elegible")
+        btn.appendChild(del)
+    }
     const section = document.getElementById("room")
     section.appendChild(div)
     // section.appendChild(div, section.firstChild);
@@ -32,20 +55,11 @@ async function getRoom(url, method) {
 
     }
     else {
-        console.log("not");
+        // console.log("not");
+        alert(response.statusText);
 
     }
 }
-
-// for user name in nav bar
-
-// (function currentUser(){
-//     getRoom("https://hi-chat-t4sd.onrender.com/api","GET")
-//     .then((res)=>{Uname.innerText = res.userName})
-//     .catch((err)=>{
-//         alert(err);
-//     })
-// })();
 
 async function postData(url, data, me) {
     const response = await fetch(url, {
@@ -61,7 +75,7 @@ async function postData(url, data, me) {
         referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
         body: JSON.stringify(data), // body data type must match "Content-Type" header
     });
-    console.log(response);
+    // console.log(response);
 
     if (response.ok) {
 
@@ -89,16 +103,15 @@ function makeChat(){
     const nav = document.createElement("nav")
     const section = document.createElement("section");
     const send = document.createElement("section")
-    section.classList.add("mt-10","grid","grid-cols-1","gap-5","ml-10","mr-10","massage")
+    section.classList.add("mt-10","grid","grid-cols-1","gap-5","ml-10","mb-20","mr-10","massage")
     nav.classList.add("flex","justify-around","flex-row","w-screen")
-    send.classList.add("gap-2","justify-center","flex","w-screen","z-10","bottom-4","fixed","send")
+    send.classList.add("gap-2","bg-slate-500","bg-opacity-55","h-16","items-center","justify-center","flex","w-screen","z-10","bottom-0","fixed","send")
     nav.innerHTML =`<div><a href="./try.html" ><img src="back-square-svgrepo-com.svg" alt="Back" class="w-10"></a></div>
     <ul class="flex justify-center items-center">
         <li class="flex items-center">
           <img src="emoji-grin-squint-svgrepo-com.svg" alt="" class="w-8">
-          <span>Username</span>
+          <span id="Uname">Username</span>
       </li>
-      <li class="ml-4"><img src="logout-svgrepo-com.svg" alt="Home" class="w-5 bg-red-200 rounded-lg"></li>
     </ul>`;
     send.innerHTML=`<input type="text" id="text" name="text"  class="ml-10 hover:border-dashed rounded-lg w-full h-10 bg-slate-200 placeholder:text-gray-400 p-1" placeholder=" Massage....">
     <img src="send-svgrepo-com.svg" id="send" class="w-8 mr-10 bg-purple-200 rounded-lg" alt="Send">`
@@ -110,6 +123,8 @@ function makeChat(){
 function sendMassage(roomid){
     const mas = document.querySelector("#text").value;
     console.log(mas);
+    console.log(roomid);
+    
     console.log("hi");
     if (mas == ""){
         alert("Please write something!");
@@ -118,10 +133,19 @@ function sendMassage(roomid){
         const data = {
             text:mas
         }
-        postData(`https://hi-chat-t4sd.onrender.com/api/caht/${roomid}`, data, "POST")
-        .then((res)=>{
-            senderMassage(res.text,res.ownerName)
+        
+        fetch(`${ulrDev}/api/chat/${roomid}`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
         })
+        .then((res) => {
+            console.log(res);
+            senderMassage(res.text, res.ownerName);
+        });
     }
     document.querySelector("#text").value = "";
     
@@ -149,38 +173,75 @@ function recieverMessage(text,user){
 }
 
 
+function deleteChat(id){
+    const data = {}
+    postData(`${ulrDev}/api/chat/${id}`, data, "DELETE")
+    .then((res)=>{
+        console.log(res);
+    })
+    .catch((err)=>{
+        alert(err);
+    })
+}
 
-getRoom("https://hi-chat-t4sd.onrender.com/api/room", "GET").then((data) => {
+function deleteRoom(id){
+    console.log(id);
+    
+    const data = {}
+    postData(`${ulrDev}/api/room/${id}`, data, "DELETE")
+    .then((res)=>{
+        console.log(res);
+    })
+    .catch((err)=>{
+        alert(err);
+    })
+}
+
+getRoom(`${ulrDev}/api/room`, "GET").then((data) => {
     console.log(data.data);
-    const arr = data.data[0]
+    const arr = data.data
     let room;
     const usename = document.getElementById("Uname")
-    usename.innerText = data.data[1]
+    usename.innerText = user.userName
     arr.forEach(element => {
         const name = element.name
         const discription = element.discription;
-
-        makeRoom(name, discription, element._id)
+        // console.log(element.owner);
+        
+        makeRoom(name, discription, element._id,element.owner)
     });
     const btn = document.querySelectorAll(".roomb");
+    const del = document.querySelectorAll(".delete");
+    del.forEach((del) => {
+        del.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const id = e.target.parentElement.parentElement.id
+            // console.log(id);
+            deleteRoom(id);
+            location.reload()
+        })
+    })
 
     btn.forEach((chat) => {
         // console.log("hi");
         chat.addEventListener("click", (e) => {
             e.stopPropagation();
-            console.log(e.target.parentElement.id);
+            // console.log(e.target.parentElement.id);
             room = e.target.parentElement.id;
 
-            getRoom(`https://hi-chat-t4sd.onrender.com/api/chat/${e.target.parentElement.id}`,"GET")
+            getRoom(`${ulrDev}/api/chat/${e.target.parentElement.id}`,"GET")
 
                 .then((res) => {
-                    console.log(res);
+                    // console.log(res);
                     makeChat();
+                    const usename = document.getElementById("Uname")
+                    usename.innerText = res.data[1]
                     res.data[0].forEach((data)=>{
                         const text = data.text
                         const owner = data.ownerName
                         if(owner == res.data[1]) 
                             senderMassage(text,owner);
+                        else
                         recieverMessage(text,owner);
                         
                     })
@@ -217,34 +278,35 @@ makeNewRoom.addEventListener('click', (event) => {
 
     const creatR = document.getElementById("creatROOM");
     const back = document.getElementById("back");
-    console.log("in creating room");
+    // console.log("in creating room");
 
     
 
     creatR.addEventListener("click", (e) => {
         e.stopPropagation()
         // e.preventDefault()
-        console.log("your in creat button");
+        // console.log("your in creat button");
 
         const name = document.getElementById("name").value;
         const dis = document.getElementById("discreption").value;
         if (!name) {
             document.getElementById("err").innerText = "Please write the room's name";
         }
-        console.log(name);
+        // console.log(name);
 
         const data = {
             name,
             discription: dis
         }
 
-        postData("https://hi-chat-t4sd.onrender.com/api/room/create", data, "POST")
+        postData(`${ulrDev}/api/room/create`, data, "POST")
             .then(() => {
                 location.reload()
             })
             .catch((error) => {
                 // document.getElementById("err").innerText = error.statusText;
                 // console.log(error);
+                alert(error);
                 
             });
 
@@ -256,10 +318,14 @@ makeNewRoom.addEventListener('click', (event) => {
     })
 })
 
+
+
+
 const logout = document.getElementById("logout")
 logout.addEventListener('click',(e)=>{
     e.stopPropagation()
-    postData("https://hi-chat-t4sd.onrender.com/api/user/logout", data, "POST")
+    const data = {}
+    postData(`${ulrDev}/api/user/logout`, data, "POST")
     .then(()=>{
         window.location.href = "./login.html"
     })
