@@ -1,4 +1,5 @@
 const body = document.body;
+// const Uname = document.getElementById("Uname");
 
 function makeRoom(name, discription, id) {
     const div = document.createElement("div")
@@ -36,6 +37,16 @@ async function getRoom(url, method) {
     }
 }
 
+// for user name in nav bar
+
+// (function currentUser(){
+//     getRoom("https://hi-chat-t4sd.onrender.com/api","GET")
+//     .then((res)=>{Uname.innerText = res.userName})
+//     .catch((err)=>{
+//         alert(err);
+//     })
+// })();
+
 async function postData(url, data, me) {
     const response = await fetch(url, {
         method: me, // *GET, POST, PUT, DELETE, etc.
@@ -66,6 +77,8 @@ async function postData(url, data, me) {
     }
 }
 
+//for making new massage in chat box
+
 function makeChat(){
     let dee = document.getElementById("room");
     dee.remove();
@@ -93,7 +106,7 @@ function makeChat(){
     body.appendChild(section);
     body.appendChild(send);
 }
-
+//sendin massage to databace
 function sendMassage(roomid){
     const mas = document.querySelector("#text").value;
     console.log(mas);
@@ -106,11 +119,14 @@ function sendMassage(roomid){
             text:mas
         }
         postData(`https://hi-chat-t4sd.onrender.com/api/caht/${roomid}`, data, "POST")
-        senderMassage(mas,"keval")
+        .then((res)=>{
+            senderMassage(res.text,res.ownerName)
+        })
     }
     document.querySelector("#text").value = "";
     
 }
+// sender massage sowcase
 function senderMassage(text, user) {
     const section = document.getElementsByClassName("massage")
     const div = document.createElement( 'div' );
@@ -120,6 +136,7 @@ function senderMassage(text, user) {
     section[0].appendChild(div);
     
 }
+//resiving massage socase
 function recieverMessage(text,user){
     const section = document.getElementsByClassName("massage")
     // console.log(section[0]);
@@ -138,7 +155,7 @@ getRoom("https://hi-chat-t4sd.onrender.com/api/room", "GET").then((data) => {
     const arr = data.data[0]
     let room;
     const usename = document.getElementById("Uname")
-    usename.innerHTML = data.data[1]
+    usename.innerText = data.data[1]
     arr.forEach(element => {
         const name = element.name
         const discription = element.discription;
@@ -154,7 +171,7 @@ getRoom("https://hi-chat-t4sd.onrender.com/api/room", "GET").then((data) => {
             console.log(e.target.parentElement.id);
             room = e.target.parentElement.id;
 
-            getRoom(`https://hi-chat-t4sd.onrender.com/api/chat/${e.target.parentElement.id}`)
+            getRoom(`https://hi-chat-t4sd.onrender.com/api/chat/${e.target.parentElement.id}`,"GET")
 
                 .then((res) => {
                     console.log(res);
@@ -169,7 +186,7 @@ getRoom("https://hi-chat-t4sd.onrender.com/api/room", "GET").then((data) => {
                     })
                     const send = document.querySelector("#send")
                     send.addEventListener('click',()=>{
-                        sendMassage(room,res.data[1]);
+                        sendMassage(room);
 
                     })
                     // const section = document.getElementsByClassName("massage")
@@ -239,3 +256,14 @@ makeNewRoom.addEventListener('click', (event) => {
     })
 })
 
+const logout = document.getElementById("logout")
+logout.addEventListener('click',(e)=>{
+    e.stopPropagation()
+    postData("https://hi-chat-t4sd.onrender.com/api/user/logout", data, "POST")
+    .then(()=>{
+        window.location.href = "./login.html"
+    })
+    .catch((err)=>{
+        alert(err);
+    })
+})

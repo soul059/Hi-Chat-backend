@@ -4,6 +4,35 @@ let password;
 const errmass = document.getElementById("err")
 const submit = document.querySelector("#submit")
 
+async function getRoom(url, method) {
+  const response = await fetch(url, {
+      method: method,
+      headers: {
+          "Content-Type": "application/json"
+      }
+
+  })
+  if (response.ok) {
+
+      return response.json(); // parses JSON response into native JavaScript objects
+
+  }
+  else {
+      console.log("not");
+
+  }
+}
+// chack this ones
+(function currentUser(){
+    getRoom("https://hi-chat-t4sd.onrender.com/api","GET")
+    .then((res)=>{
+      window.location.href = "./try.html"
+    })
+    .catch((err)=>{
+      
+    })
+})();
+
 submit.addEventListener("click", () => {
 
   userName = document.getElementById("name").value
@@ -20,7 +49,7 @@ submit.addEventListener("click", () => {
     // console.log(data); // JSON data parsed by `data.json()` call
 
     if (data.statusCode == 200){
-      window.location.href = "./try.html"
+      window.location.href = "./login.html"
     }
   })
 
