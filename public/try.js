@@ -1,7 +1,7 @@
 const body = document.body;
 // const Uname = document.getElementById("Uname");
-// let ulr = "https://hi-chat-t4sd.onrender.com"
-let ulr = "http://localhost:8000"
+let ulr = "https://hi-chat-t4sd.onrender.com"
+// let ulr = "http://localhost:8000"
 
 let room;
 let user;

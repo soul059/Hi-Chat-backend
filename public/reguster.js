@@ -3,8 +3,8 @@ let email;
 let password;
 const errmass = document.getElementById("err")
 const submit = document.querySelector("#submit")
-// let ulr = "https://hi-chat-t4sd.onrender.com"
-let ulr = "http://localhost:8000"
+let ulr = "https://hi-chat-t4sd.onrender.com"
+// let ulr = "http://localhost:8000"
 
 async function getRoom(url, method) {
   const response = await fetch(url, {
