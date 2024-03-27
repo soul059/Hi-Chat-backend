@@ -111,7 +111,7 @@ function makeChat(){
     </ul>`;
     send.innerHTML=`<input type="text" id="text" name="text"  class="ml-10 hover:border-dashed rounded-lg w-full h-10 bg-slate-200 placeholder:text-gray-400 p-1" placeholder=" Massage....">
     <img src="send-svgrepo-com.svg" id="send" class="w-8 mr-10 bg-purple-200 rounded-lg" alt="Send">`
-    body.appendChild(nav);
+    document.getElementById("header").appendChild(nav);
     body.appendChild(section);
     body.appendChild(send);
 }
