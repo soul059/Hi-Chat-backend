@@ -3,8 +3,8 @@ let email;
 let password;
 const errmass = document.getElementById("err")
 const submit = document.querySelector("#submit")
-let ulrDev = "http://localhost:8000"
-let urlPro = "https://hi-chat-t4sd.onrender.com"
+// let ulr = "https://hi-chat-t4sd.onrender.com"
+let ulr = "http://localhost:8000"
 
 async function getRoom(url, method) {
   const response = await fetch(url, {
@@ -26,7 +26,7 @@ async function getRoom(url, method) {
 }
 // chack this ones
 (function currentUser(){
-    getRoom(`${urlPro}/api/user/current`,"GET")
+    getRoom(`${ulr}/api/user/current`,"GET")
     .then((res)=>{
       window.location.href = "./login.html"
     })
@@ -60,7 +60,7 @@ submit.addEventListener("click", () => {
     password
   }
 
-  postData(`${urlPro}/api/user/reguster`, data)
+  postData(`${ulr}/api/user/reguster`, data)
   .then((data) => {
     // console.log(data); // JSON data parsed by `data.json()` call
 

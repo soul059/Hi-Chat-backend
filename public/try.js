@@ -1,7 +1,7 @@
 const body = document.body;
 // const Uname = document.getElementById("Uname");
-let ulr = "https://hi-chat-t4sd.onrender.com"
-// let ulr = "http://localhost:8000"
+// let ulr = "https://hi-chat-t4sd.onrender.com"
+let ulr = "http://localhost:8000"
 
 let room;
 let user;
@@ -163,6 +163,10 @@ function senderMassage(text, user,id) {
     div.innerHTML = `<span id="${id}" class="block w-fit text-xs"> ${user}</span><hr>
     <span>${text}</span>`
     section[0].appendChild(div);
+    scrollY = section[0].scrollHeight;
+    window.scrollTo(0,scrollY);
+    // console.log(section[0].scrollHeight);
+    
     
 }
 //resiving massage socase
@@ -175,6 +179,8 @@ function recieverMessage(text,user,id){
     div.innerHTML = `<span id="${id}" class="block w-fit text-xs"> ${user}</span><hr>
     <span>${text}</span>`
     section[0].appendChild(div);
+    scrollY = section[0].scrollHeight;
+    window.scrollTo(0,scrollY);
 }
 
 function remakechat(){
@@ -185,12 +191,12 @@ function remakechat(){
         const owner = data.ownerName
         // console.log(data._id,document.getElementById(data._id).id);
         
-        if(data._id != document.getElementById(data._id).id){
+        if(data._id && document.getElementById(data._id)?0:1){
 
             if(owner == res.data[1]) 
-                senderMassage(text,owner);
+                senderMassage(text,owner,data._id);
             else
-                recieverMessage(text,owner);
+                recieverMessage(text,owner,data._id);
         }
         
     })

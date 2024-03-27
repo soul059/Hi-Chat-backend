@@ -2,8 +2,8 @@ let email;
 let password;
 const errmass = document.getElementById("err")
 const login = document.getElementById("login")
-let ulrDev = "http://localhost:8000"
-let urlPro = "https://hi-chat-t4sd.onrender.com"
+// let ulr = "https://hi-chat-t4sd.onrender.com"
+let ulr = "http://localhost:8000"
 login.addEventListener("click", () => {
 
   email = document.getElementById("email").value
@@ -13,7 +13,7 @@ login.addEventListener("click", () => {
     password
   }
 
-  postData(`${urlPro}/api/user/login`, data)
+  postData(`${ulr}/api/user/login`, data)
   .then((data) => {
     console.log(data); // JSON data parsed by `data.json()` call
 
