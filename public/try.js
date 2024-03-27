@@ -1,14 +1,16 @@
 const body = document.body;
 // const Uname = document.getElementById("Uname");
 let ulr = "https://hi-chat-t4sd.onrender.com"
+// let ulr = "http://localhost:8000"
 
+let room;
 let user;
 
-(function currentUser(){
-     getRoom(`${ulr}/api/user/current`,"GET")
+await (async function currentUser(){
+    await getRoom(`${ulr}/api/user/current`,"GET")
      .then((res)=>{
        user = res.data
-    //    console.log(user);
+    //    console.log(user.userName);
        
      })
      .catch((err)=>{
@@ -93,22 +95,17 @@ async function postData(url, data, me) {
 //for making new massage in chat box
 
 function makeChat(){
-    let dee = document.getElementById("room");
-    dee.remove();
-    dee = document.getElementById("nav");
-    dee.remove();
-    dee = document.getElementById("creatR")
-    dee.remove();
+   
     const nav = document.createElement("nav")
     const section = document.createElement("section");
     const send = document.createElement("section")
-    section.classList.add("mt-10","grid","grid-cols-1","gap-5","ml-10","mb-20","mr-10","massage")
-    nav.classList.add("flex","justify-around","flex-row","w-screen")
-    send.classList.add("gap-2","bg-slate-500","bg-opacity-55","h-16","items-center","justify-center","flex","w-screen","z-10","bottom-0","fixed","send")
+    section.classList.add("allchat","mt-10","grid","grid-cols-1","gap-5","ml-10","mb-20","mr-10","massage")
+    nav.classList.add("allchat","flex","justify-around","flex-row","w-screen")
+    send.classList.add("allchat","gap-2","bg-slate-500","bg-opacity-55","h-16","items-center","justify-center","flex","w-screen","z-10","bottom-0","fixed","send")
     nav.innerHTML =`<div><a href="./try.html" ><img src="back-square-svgrepo-com.svg" alt="Back" class="w-10"></a></div>
     <ul class="flex justify-center items-center">
         <li class="flex items-center">
-          <img src="emoji-grin-squint-svgrepo-com.svg" alt="" class="w-8">
+          <img src="room.svg" alt="" class="w-8">
           <span id="Uname">Username</span>
       </li>
     </ul>`;
@@ -121,19 +118,26 @@ function makeChat(){
 //sendin massage to databace
 function sendMassage(roomid){
     const mas = document.querySelector("#text").value;
-    console.log(mas);
-    console.log(roomid);
-    
-    console.log("hi");
-    if (mas == ""){
-        alert("Please write something!");
-    }
-    else{
-        const data = {
-            text:mas
-        }
+    const badWords = []; // Add your list of bad words here
+
+    if (badWords.some(word => mas.toLowerCase().includes(word))) {
+        alert("Please refrain from using inappropriate language.");
+    } else {
+        // Proceed with sending the message
         
-        fetch(`${ulr}/api/chat/${roomid}`, {
+        console.log(mas);
+        console.log(roomid);
+        
+        console.log("hi");
+        if (mas == ""){
+            alert("Please write something!");
+        }
+        else{
+            const data = {
+                text:mas
+            }
+            
+            fetch(`${ulr}/api/chat/${roomid}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -141,34 +145,58 @@ function sendMassage(roomid){
             },
             body: JSON.stringify(data),
         })
+        .then((res) => res.json())
         .then((res) => {
-            console.log(res);
-            senderMassage(res.text, res.ownerName);
-        });
+            console.log(res.data);
+            senderMassage(res.data.text, res.data.ownerName,res.data._id);
+        })
     }
+}
     document.querySelector("#text").value = "";
     
 }
 // sender massage sowcase
-function senderMassage(text, user) {
+function senderMassage(text, user,id) {
     const section = document.getElementsByClassName("massage")
     const div = document.createElement( 'div' );
     div.classList.add("bg-red-200","justify-self-end","w-fit","rounded-lg","p-1");
-    div.innerHTML = `<span class="block w-fit text-xs"> ${user}</span><hr>
+    div.innerHTML = `<span id="${id}" class="block w-fit text-xs"> ${user}</span><hr>
     <span>${text}</span>`
     section[0].appendChild(div);
     
 }
 //resiving massage socase
-function recieverMessage(text,user){
+function recieverMessage(text,user,id){
     const section = document.getElementsByClassName("massage")
     // console.log(section[0]);
     
     const div = document.createElement( 'div' );
     div.classList.add("bg-red-200","justify-self-start","w-fit","rounded-lg","p-1");
-    div.innerHTML = `<span class="block w-fit text-xs"> ${user}</span><hr>
+    div.innerHTML = `<span id="${id}" class="block w-fit text-xs"> ${user}</span><hr>
     <span>${text}</span>`
     section[0].appendChild(div);
+}
+
+function remakechat(){
+    getRoom(`${ulr}/api/chat/${room}`,"GET")
+    .then((res) => {
+    res.data[0].forEach((data)=>{
+        const text = data.text
+        const owner = data.ownerName
+        // console.log(data._id,document.getElementById(data._id).id);
+        
+        if(data._id != document.getElementById(data._id).id){
+
+            if(owner == res.data[1]) 
+                senderMassage(text,owner);
+            else
+                recieverMessage(text,owner);
+        }
+        
+    })
+})
+    
+
 }
 
 
@@ -198,12 +226,12 @@ function deleteRoom(id){
     })
 }
 
-getRoom(`${ulr}/api/room`, "GET").then((data) => {
+getRoom(`${ulr}/api/room`, "GET")
+.then((data) => {
     console.log(data.data);
-    const arr = data.data
-    let room;
+    const arr = data.data[0]
     const usename = document.getElementById("Uname")
-    usename.innerText = user.userName
+    usename.innerText = data.data[1]
     arr.forEach(element => {
         const name = element.name
         const discription = element.discription;
@@ -230,24 +258,42 @@ getRoom(`${ulr}/api/room`, "GET").then((data) => {
             // console.log(e.target.parentElement.id);
             room = e.target.parentElement.id;
 
-            getRoom(`${ulr}/api/chat/${e.target.parentElement.id}`,"GET")
+            getRoom(`${ulr}/api/chat/${room}`,"GET")
 
                 .then((res) => {
                     // console.log(res);
+                    let dee = document.getElementById("room");
+                    dee.remove();
+                    dee = document.getElementById("nav");
+                    dee.remove();
+                    dee = document.getElementById("creatR")
+                    dee.remove();
                     makeChat();
-                    const usename = document.getElementById("Uname")
-                    usename.innerText = res.data[1]
+                    getRoom(`${ulr}/api/room/${room}`,"GET")
+                    .then((res)=>{
+                        console.log(res);
+                        
+                        const usename = document.getElementById("Uname")
+                        usename.innerText =  res.data.name
+                    })
+                    .catch((err)=>{
+                        alert(err);
+                    })
+                    console.log(res.data)
                     res.data[0].forEach((data)=>{
                         const text = data.text
                         const owner = data.ownerName
                         if(owner == res.data[1]) 
-                            senderMassage(text,owner);
+                            senderMassage(text,owner,data._id);
                         else
-                        recieverMessage(text,owner);
+                        recieverMessage(text,owner,data._id);
                         
                     })
+                    setInterval(remakechat, 1000);
+                    remakechat();
                     const send = document.querySelector("#send")
                     send.addEventListener('click',()=>{
+
                         sendMassage(room);
 
                     })

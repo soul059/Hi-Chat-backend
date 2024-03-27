@@ -6,40 +6,54 @@ const submit = document.querySelector("#submit")
 let ulrDev = "http://localhost:8000"
 let urlPro = "https://hi-chat-t4sd.onrender.com"
 
-// async function getRoom(url, method) {
-//   const response = await fetch(url, {
-//       method: method,
-//       headers: {
-//           "Content-Type": "application/json"
-//       }
+async function getRoom(url, method) {
+  const response = await fetch(url, {
+      method: method,
+      headers: {
+          "Content-Type": "application/json"
+      }
 
-//   })
-//   if (response.ok) {
+  })
+  if (response.ok) {
 
-//       return response.json(); // parses JSON response into native JavaScript objects
+      return response.json(); // parses JSON response into native JavaScript objects
 
-//   }
-//   else {
-//       console.log("not");
+  }
+  else {
+      console.log("not");
 
-//   }
-// }
-// // chack this ones
-// (function currentUser(){
-//     getRoom("https://hi-chat-t4sd.onrender.com/api","GET")
-//     .then((res)=>{
-//       window.location.href = "./try.html"
-//     })
-//     .catch((err)=>{
+  }
+}
+// chack this ones
+(function currentUser(){
+    getRoom(`${urlPro}/api/user/current`,"GET")
+    .then((res)=>{
+      window.location.href = "./login.html"
+    })
+    .catch((err)=>{
       
-//     })
-// })();
+    })
+})();
+
+
+password = document.getElementById("password")
 
 submit.addEventListener("click", () => {
 
   userName = document.getElementById("name").value
   email = document.getElementById("email").value
   password = document.getElementById("password").value
+  if (!password.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)) {
+    errmass.innerText = "Password must contain at least 8 characters and one number";
+    return;
+  }
+  if (!userName.match(/^[a-zA-Z0-9]{3,}$/)) {
+    errmass.innerText = "User name must contain at least 3 characters";
+    return;
+  }
+  if (!email.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)) {
+    errmass.innerText = "Email must be in the form of name@some.come"
+  }
   const data = {
     userName,
     email,
