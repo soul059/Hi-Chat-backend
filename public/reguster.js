@@ -98,7 +98,7 @@ if(response.ok){
 }
 else{
   // console.log(response.statusText);
-  errmass.innerText = "This user name or email arady exist";
+  error("This user name or email arady exist")
   
 }
 }
