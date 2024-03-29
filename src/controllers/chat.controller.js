@@ -72,7 +72,8 @@ const getAllChatsInARoom= asyncHandler (async (req , res)=>{
         {
             $project:{
                 ownerName:1,
-                text:1
+                text:1,
+                createdAt:1
             }
         }
     ])

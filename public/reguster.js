@@ -1,10 +1,23 @@
 let userName;
 let email;
 let password;
-const errmass = document.getElementById("err")
 const submit = document.querySelector("#submit")
 let ulr = "https://hi-chat-t4sd.onrender.com"
 // let ulr = "http://localhost:8000"
+
+function error(mas){
+  let err = document.getElementById("err")
+  if (document.getElementById("error")?0:1){
+    
+    let span = document.createElement("span")
+    span.style.color = "red"
+    span.id = "error"
+    err.appendChild(span)
+  }
+  let span = document.getElementById("error")
+  span.innerText = mas
+}
+
 
 async function getRoom(url, method) {
   const response = await fetch(url, {
@@ -24,16 +37,6 @@ async function getRoom(url, method) {
 
   }
 }
-// chack this ones
-(function currentUser(){
-    getRoom(`${ulr}/api/user/current`,"GET")
-    .then((res)=>{
-      window.location.href = "./login.html"
-    })
-    .catch((err)=>{
-      
-    })
-})();
 
 
 password = document.getElementById("password")
@@ -44,15 +47,15 @@ submit.addEventListener("click", () => {
   email = document.getElementById("email").value
   password = document.getElementById("password").value
   if (!password.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)) {
-    errmass.innerText = "Password must contain at least 8 characters and one number";
+    error("Password must contain at least 8 characters and one number")
     return;
   }
   if (!userName.match(/^[a-zA-Z0-9]{3,}$/)) {
-    errmass.innerText = "User name must contain at least 3 characters";
+    error("User name must contain at least 3 characters")
     return;
   }
   if (!email.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)) {
-    errmass.innerText = "Email must be in the form of name@some.come"
+    error("Email must be in the form of name@some.com")
   }
   const data = {
     userName,

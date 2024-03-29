@@ -1,9 +1,21 @@
 let email;
 let password;
-const errmass = document.getElementById("err")
 const login = document.getElementById("login")
 let ulr = "https://hi-chat-t4sd.onrender.com"
 // let ulr = "http://localhost:8000"
+
+function error(mas){
+  let err = document.getElementById("err")
+  if (document.getElementById("error")?0:1){
+    
+    let span = document.createElement("span")
+    span.style.color = "red"
+    span.id = "error"
+    err.appendChild(span)
+  }
+  let span = document.getElementById("error")
+  span.innerText = mas
+}
 login.addEventListener("click", () => {
 
   email = document.getElementById("email").value
@@ -12,6 +24,7 @@ login.addEventListener("click", () => {
     email,
     password
   }
+  
 
   postData(`${ulr}/api/user/login`, data)
   .then((data) => {
@@ -54,7 +67,7 @@ if(response.ok){
 }
 else{
   // console.log(response.status);
-  errmass.innerText = "Wrong password Or user dose not exist";
+  error("Wrong password Or user dose not exist")
   throw new Error(response.statusText);
 }
 }

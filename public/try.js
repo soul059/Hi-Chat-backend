@@ -125,10 +125,10 @@ function sendMassage(roomid){
     } else {
         // Proceed with sending the message
         
-        console.log(mas);
-        console.log(roomid);
+        // console.log(mas);
+        // console.log(roomid);
         
-        console.log("hi");
+        // console.log("hi");
         if (mas == ""){
             alert("Please write something!");
         }
@@ -147,8 +147,10 @@ function sendMassage(roomid){
         })
         .then((res) => res.json())
         .then((res) => {
-            console.log(res.data);
-            senderMassage(res.data.text, res.data.ownerName,res.data._id);
+            // console.log(res.data);
+            const utcTimestamp = res.data.createdAt;
+            const time = new Date(utcTimestamp).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+            senderMassage(res.data.text, res.data.ownerName,res.data._id,time);
         })
     }
 }
@@ -156,12 +158,12 @@ function sendMassage(roomid){
     
 }
 // sender massage sowcase
-function senderMassage(text, user,id) {
+function senderMassage(text, user,id,time) {
     const section = document.getElementsByClassName("massage")
     const div = document.createElement( 'div' );
-    div.classList.add("bg-red-200","justify-self-end","w-fit","rounded-lg","p-1");
+    div.classList.add("bg-orange-200","justify-self-end","w-fit","rounded-lg","p-1");
     div.innerHTML = `<span id="${id}" class="block w-fit text-xs"> ${user}</span><hr>
-    <span>${text}</span>`
+    <p class="text-wrap flex flex-col">${text}<span class="text-xs self-end ">${time}</span></p>`
     section[0].appendChild(div);
     scrollY = section[0].scrollHeight;
     window.scrollTo(0,scrollY);
@@ -170,14 +172,14 @@ function senderMassage(text, user,id) {
     
 }
 //resiving massage socase
-function recieverMessage(text,user,id){
+function recieverMessage(text,user,id,time){
     const section = document.getElementsByClassName("massage")
     // console.log(section[0]);
     
     const div = document.createElement( 'div' );
     div.classList.add("bg-red-200","justify-self-start","w-fit","rounded-lg","p-1");
     div.innerHTML = `<span id="${id}" class="block w-fit text-xs"> ${user}</span><hr>
-    <span>${text}</span>`
+    <p class="text-wrap flex flex-col">${text}<span class="text-xs self-end ">${time}</span></p>`
     section[0].appendChild(div);
     scrollY = section[0].scrollHeight;
     window.scrollTo(0,scrollY);
@@ -186,17 +188,21 @@ function recieverMessage(text,user,id){
 function remakechat(){
     getRoom(`${ulr}/api/chat/${room}`,"GET")
     .then((res) => {
+        
     res.data[0].forEach((data)=>{
         const text = data.text
         const owner = data.ownerName
+        const utcTimestamp = data.createdAt;
+        const time = new Date(utcTimestamp).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+// console.log(istTime);
         // console.log(data._id,document.getElementById(data._id).id);
         
         if(data._id && document.getElementById(data._id)?0:1){
 
             if(owner == res.data[1]) 
-                senderMassage(text,owner,data._id);
+                senderMassage(text,owner,data._id,time);
             else
-                recieverMessage(text,owner,data._id);
+                recieverMessage(text,owner,data._id,time);
         }
         
     })
@@ -232,9 +238,20 @@ function deleteRoom(id){
     })
 }
 
+function removeRoom(){
+    let dee = document.getElementById("room");
+    dee.remove();
+    dee = document.getElementById("nav");
+    dee.remove();
+    dee = document.getElementById("creatR")
+    dee.remove();
+}
+
+
+
 getRoom(`${ulr}/api/room`, "GET")
 .then((data) => {
-    console.log(data.data);
+    // console.log(data.data);
     const arr = data.data[0]
     const usename = document.getElementById("Uname")
     usename.innerText = data.data[1]
@@ -257,7 +274,7 @@ getRoom(`${ulr}/api/room`, "GET")
         })
     })
 
-    btn.forEach((chat) => {
+    btn.forEach( (chat) => {
         // console.log("hi");
         chat.addEventListener("click", (e) => {
             e.stopPropagation();
@@ -266,18 +283,13 @@ getRoom(`${ulr}/api/room`, "GET")
 
             getRoom(`${ulr}/api/chat/${room}`,"GET")
 
-                .then((res) => {
+                .then(async (res) => {
                     // console.log(res);
-                    let dee = document.getElementById("room");
-                    dee.remove();
-                    dee = document.getElementById("nav");
-                    dee.remove();
-                    dee = document.getElementById("creatR")
-                    dee.remove();
+                    removeRoom();
                     makeChat();
-                    getRoom(`${ulr}/api/room/${room}`,"GET")
+                    await getRoom(`${ulr}/api/room/${room}`,"GET")
                     .then((res)=>{
-                        console.log(res);
+                        // console.log(res);
                         
                         const usename = document.getElementById("Uname")
                         usename.innerText =  res.data.name
@@ -285,23 +297,35 @@ getRoom(`${ulr}/api/room`, "GET")
                     .catch((err)=>{
                         alert(err);
                     })
-                    console.log(res.data)
+                    // console.log(res.data)
                     res.data[0].forEach((data)=>{
                         const text = data.text
                         const owner = data.ownerName
+                        const utcTimestamp = data.createdAt;
+                        const time = new Date(utcTimestamp).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
                         if(owner == res.data[1]) 
-                            senderMassage(text,owner,data._id);
+                            senderMassage(text,owner,data._id,time);
                         else
-                        recieverMessage(text,owner,data._id);
+                        recieverMessage(text,owner,data._id,time);
                         
                     })
                     setInterval(remakechat, 1000);
                     remakechat();
                     const send = document.querySelector("#send")
+                    const sendtext = document.querySelector("#text")
                     send.addEventListener('click',()=>{
 
                         sendMassage(room);
 
+                    })
+
+                    sendtext.addEventListener('keypress',(e)=>{
+                        
+                        // console.log(e.key);
+                        
+                        if (e.key === "Enter") {
+                            sendMassage(room);
+                        }
                     })
                     // const section = document.getElementsByClassName("massage")
                 })
