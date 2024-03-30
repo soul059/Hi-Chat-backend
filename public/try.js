@@ -1,4 +1,5 @@
 const body = document.body;
+let count = 0;
 // const Uname = document.getElementById("Uname");
 let ulr = "https://hi-chat-t4sd.onrender.com"
 // let ulr = "http://localhost:8000"
@@ -150,6 +151,7 @@ function sendMassage(roomid){
             // console.log(res.data);
             const utcTimestamp = res.data.createdAt;
             const time = new Date(utcTimestamp).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+            count++;
             senderMassage(res.data.text, res.data.ownerName,res.data._id,time);
         })
     }
@@ -187,26 +189,47 @@ function recieverMessage(text,user,id,time){
 
 function remakechat(){
     getRoom(`${ulr}/api/chat/${room}`,"GET")
+    
+    
     .then((res) => {
-        
-    res.data[0].forEach((data)=>{
-        const text = data.text
-        const owner = data.ownerName
-        const utcTimestamp = data.createdAt;
-        const time = new Date(utcTimestamp).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
-// console.log(istTime);
-        // console.log(data._id,document.getElementById(data._id).id);
-        
-        if(data._id && document.getElementById(data._id)?0:1){
+        // console.log(count);
+        for(let i = count; i<res.data[0].length; i++){
+            // console.log("hi");
+            
+            const data = res.data[0][i]
+            // console.log(data)
+            const text = data.text
+            const owner = data.ownerName
+            const utcTimestamp = data.createdAt;
+            const time = new Date(utcTimestamp).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+            if(data._id && document.getElementById(data._id)?0:1){
+                count++;
 
-            if(owner == res.data[1]) 
-                senderMassage(text,owner,data._id,time);
-            else
-                recieverMessage(text,owner,data._id,time);
+                if(owner == res.data[1]) 
+                    senderMassage(text,owner,data._id,time);
+                else
+                    recieverMessage(text,owner,data._id,time);
+            }
         }
-        
     })
-})
+//     res.data[0].forEach((data)=>{
+//         const text = data.text
+//         const owner = data.ownerName
+//         const utcTimestamp = data.createdAt;
+//         const time = new Date(utcTimestamp).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+// // console.log(istTime);
+//         // console.log(data._id,document.getElementById(data._id).id);
+        
+//         if(data._id && document.getElementById(data._id)?0:1){
+
+//             if(owner == res.data[1]) 
+//                 senderMassage(text,owner,data._id,time);
+//             else
+//                 recieverMessage(text,owner,data._id,time);
+//         }
+        
+//     })
+// })
     
 
 }
@@ -302,6 +325,7 @@ getRoom(`${ulr}/api/room`, "GET")
                         const text = data.text
                         const owner = data.ownerName
                         const utcTimestamp = data.createdAt;
+                        count++;
                         const time = new Date(utcTimestamp).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
                         if(owner == res.data[1]) 
                             senderMassage(text,owner,data._id,time);
@@ -310,7 +334,6 @@ getRoom(`${ulr}/api/room`, "GET")
                         
                     })
                     setInterval(remakechat, 1000);
-                    remakechat();
                     const send = document.querySelector("#send")
                     const sendtext = document.querySelector("#text")
                     send.addEventListener('click',()=>{
