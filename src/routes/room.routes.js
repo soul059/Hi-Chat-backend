@@ -5,7 +5,7 @@ const  router = Router();
 router.use(verifingJWT);
 
 router.route("/").get(getAllRooms)
-router.route("/:roomId").get(getRoom).delete(deleteRoom).patch(editRoom)
+router.route("/:roomId").get(getRoom).delete(deleteRoom).put(editRoom)
 router.route("/create").post(createRoom)
 
 export default router

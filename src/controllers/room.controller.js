@@ -54,17 +54,19 @@ const editRoom = asyncHandler(async (req,res)=>{
     }
     const {roomId} = req.params;
     const userId = req.user?._id
-    const room = Room.findById(roomId);
+    let room = await Room.findById(roomId);
     if(!room){
         throw new ApiError(404,"No room with given id found")
     }
+    
     if (!userId.equals(room.owner)) {
         throw new ApiError(403, 'You do not have permission to perform this action');
     }
 
-    room.name= name
-    room.discription = discription
-    await Room.save();
+    room = await Room.findByIdAndUpdate(roomId,{$set:{
+        name,
+        discription
+    }},{new:true})
 
     return res
     .status(200)

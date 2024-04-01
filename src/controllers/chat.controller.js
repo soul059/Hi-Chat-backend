@@ -25,6 +25,26 @@ const createChat = asyncHandler(async(req,res)=>{
     )
 })
 
+const editChat = asyncHandler(async(req,res)=>{
+    const {text} = req.body
+    const {chatId} = req.params
+    const userId = req.user?._id
+    const chat =await Chat.findById(chatId)
+    if(!chat){
+        throw new ApiError(404,"Chat not found")
+    }
+    if (!userId.equals(chat.owner)) {
+        throw new ApiError(403, 'You do not have permission to perform this action');
+    }
+    chat.text = text;
+    const updatedChat = await chat.save()
+    return res
+    .status(200)
+    .json(
+        new ApiResponce(200,updatedChat,"chat is updated successfully")
+    )
+})
+
 const deleteChat = asyncHandler(async(req,res)=>{
     const {chatId}=req.params;
     
@@ -91,4 +111,4 @@ const getAllChatsInARoom= asyncHandler (async (req , res)=>{
 
 })
 
-export  {createChat,deleteChat,getAllChatsInARoom}
+export  {createChat,deleteChat,getAllChatsInARoom,editChat}

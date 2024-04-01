@@ -145,6 +145,34 @@ const deleteUser = asyncHandler(async(req,res)=>{
         new ApiResponce(200,{},"User deleted successfully")
     )
 })
+const editUsername = asyncHandler(async(req,res)=>{
+    const user = req.user?._id
+    // console.log(user);
+    if(!user){
+        throw new ApiError(401,"Problem while requesting user")
+    }
+    const {userName} = req.body
+    if(!userName){
+        throw new ApiError(400,"Please provide username")
+    }
+    const updated = await User.findByIdAndUpdate(user,{
+        userName
+    },{
+        new:true
+    })
+    .select("-password -refreshToken")
+
+    if(!updated){
+        throw new ApiError(400,"Problem while updating user")
+    }
+
+    return res
+    .status(200)
+    .json(
+        new ApiResponce(200,updated,"User updated successfully")
+    )
+})
+
 
 const getCurrentUserProfile = asyncHandler(async (req,res)=>{
     const user = req.user?._id;
@@ -170,5 +198,6 @@ export {
     loginUser,
     logoutUser,
     getCurrentUserProfile,
-    deleteUser
+    deleteUser,
+    editUsername
 };
