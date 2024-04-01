@@ -632,6 +632,10 @@ html {
   margin-right: 0.5rem;
 }
 
+.mr-5 {
+  margin-right: 1rem;
+}
+
 .mr-auto {
   margin-right: auto;
 }
