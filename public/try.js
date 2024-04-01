@@ -687,7 +687,7 @@ function chatoption() {
                     <button id="backChat" class="hover:bg-blue-400 rounded-lg">back</button>
                 </div> */
                 const div = document.createElement("div")
-                div.classList.add("flex", "flex-col", "justify-center", "items-center", "text-sm", "mt-3");
+                div.classList.add("flex", "flex-col", "justify-center", "items-center","gap-2" ,"text-sm", "mt-3");
                 div.innerHTML = `<button id="editChat" class="hover:bg-red-400 bg-red-400 rounded-lg p-1">Edit</button>
                 <button id="deleteChat" class="hover:bg-red-400 bg-red-400 rounded-lg p-1">Delete</button>
                 <button id="backChat" class="hover:bg-blue-400 bg-blue-400 rounded-lg p-1">back</button>`
