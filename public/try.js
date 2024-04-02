@@ -618,8 +618,9 @@ profile.addEventListener('click', (e) => {
                         location.reload()
                     })
                     .catch((err) => {
-                        alert(err);
+                        alert(err,"or username might be taken");
                         location.reload()
+                        throw new Error("username might be taken")
                     })
             }
         })
