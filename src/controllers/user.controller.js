@@ -158,7 +158,8 @@ const editUsername = asyncHandler(async(req,res)=>{
     const updated = await User.findByIdAndUpdate(user,{
         userName
     },{
-        new:true
+        new:true,
+        runValidators: true
     })
     .select("-password -refreshToken")
 

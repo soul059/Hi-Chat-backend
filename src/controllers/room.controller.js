@@ -96,6 +96,9 @@ const getRoom = asyncHandler(async (req,res)=>{
 
 const getAllRooms = asyncHandler(async(req,res)=>{
     const userName = req.user?.userName
+    const userId = req.user?._id
+    console.log(userId);
+    
     const rooms = await Room.aggregate([
         {
             $sort: {
@@ -109,7 +112,7 @@ const getAllRooms = asyncHandler(async(req,res)=>{
 
     return res
     .status(200)
-    .json(new ApiResponce(200,[rooms,userName],"Done"))
+    .json(new ApiResponce(200,[rooms,userName,userId],"Done"))
 })
 
 export {

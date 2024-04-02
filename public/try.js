@@ -1,8 +1,8 @@
 const body = document.body;
 let count = 0;
 // const Uname = document.getElementById("Uname");
-let ulr = "https://hi-chat-t4sd.onrender.com"
-// let ulr = "http://localhost:8000"
+// let ulr = "https://hi-chat-t4sd.onrender.com"
+let ulr = "http://localhost:8000"
 
 let room;
 let user;
@@ -224,53 +224,61 @@ function remakechat() {
     getRoom(`${ulr}/api/chat/${room}`, "GET")
 
 
+        // .then((res) => {
+
+        //     // console.log(count);
+        //     for (let i = count; i < res.data[0].length; i++) {
+        //         // console.log("hi");
+
+        //         const data = res.data[0][i]
+        //         // console.log(data)
+        //         const text = data.text
+        //         const owner = data.ownerName
+        //         const ownerID = data.owner
+        //         const utcTimestamp = data.createdAt;
+        //         const time = new Date(utcTimestamp).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+        //         if (data._id && document.getElementById(data._id) ? 0 : 1) {
+        //             count++;
+        //             if (ownerID == res.data[2])
+        //                 senderMassage(text, owner, data._id, time);
+        //             else
+        //                 recieverMessage(text, owner, data._id, time);
+        //         }
+        //         else {
+        //             console.log("hi");
+        //         }
+
+        //     }
+        // })
+
         .then((res) => {
-
-            // console.log(count);
-            for (let i = count; i < res.data[0].length; i++) {
-                // console.log("hi");
-
-                const data = res.data[0][i]
-                // console.log(data)
+            // this code is not efficient for usage
+            res.data[0].forEach((data) => {
                 const text = data.text
                 const owner = data.ownerName
                 const utcTimestamp = data.createdAt;
                 const time = new Date(utcTimestamp).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
-                if (data._id && document.getElementById(data._id) ? 0 : 1) {
-                    count++;
+                // console.log(istTime);
+                console.log(data._id,document.getElementById(data._id));
+
+                if (document.getElementById(data._id) ? 0 : 1) {
+
                     if (owner == res.data[1])
                         senderMassage(text, owner, data._id, time);
                     else
                         recieverMessage(text, owner, data._id, time);
                 }
+                else if(!document.getElementById(data._id)) {
+                    console.log("hi")
+                }
 
-            }
+            })
         })
         chatoption()
 
 
-    //this code is not efficient for usage
-    //     res.data[0].forEach((data)=>{
-    //         const text = data.text
-    //         const owner = data.ownerName
-    //         const utcTimestamp = data.createdAt;
-    //         const time = new Date(utcTimestamp).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
-    // // console.log(istTime);
-    //         // console.log(data._id,document.getElementById(data._id).id);
-
-    //         if(data._id && document.getElementById(data._id)?0:1){
-
-    //             if(owner == res.data[1]) 
-    //                 senderMassage(text,owner,data._id,time);
-    //             else
-    //                 recieverMessage(text,owner,data._id,time);
-    //         }
-
-    //     })
-    // })
-
-
 }
+
 
 
 
@@ -442,10 +450,17 @@ await getRoom(`${ulr}/api/room`, "GET")
                         res.data[0].forEach((data) => {
                             const text = data.text
                             const owner = data.ownerName
+                            const ownerID = data.owner
                             const utcTimestamp = data.createdAt;
                             count++;
                             const time = new Date(utcTimestamp).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
-                            if (owner == res.data[1])
+                            // console.log(res.data[2]);
+                            // console.log(ownerID);
+                            // console.log(data);
+
+
+
+                            if (ownerID == res.data[2])
                                 senderMassage(text, owner, data._id, time);
                             else
                                 recieverMessage(text, owner, data._id, time);
@@ -557,8 +572,10 @@ profile.addEventListener('click', (e) => {
     <h1 class="text-3xl font-bold text-orange-400">Hi chat</h1>
     <span class="mb-4">${nameX}'s Profile</span>
     <img src="emoji-grin-squint-svgrepo-com.svg" alt="Emogi" class="w-8">
-    <pre class="mb-4">user Name : ${nameX}</pre>
-    <pre class="mb-4">Email    : ${email}</pre>
+    <p class="mb-4">user Name :
+    ${nameX}</p>
+    <p class="mb-4">Email :
+    ${email}</p>
 <div class="mt-4 flex  flex-row justify-center items-center w-full gap-3">
 <button id="DELETE" class="bg-red-400 text-white rounded-lg w-32 p-1 hover:bg-red-600">DELETE</button>
 <button id="Edit" class="bg-[#1da1f2] text-white rounded-lg w-32 p-1 hover:bg-violet-800">Edit</button>
@@ -687,10 +704,10 @@ function chatoption() {
                     <button id="backChat" class="hover:bg-blue-400 rounded-lg">back</button>
                 </div> */
                 const div = document.createElement("div")
-                div.classList.add("flex", "flex-col", "justify-center", "items-center","gap-2" ,"text-sm", "mt-3");
-                div.innerHTML = `<button id="editChat" class="hover:bg-red-400 bg-red-400 rounded-lg p-1">Edit</button>
-                <button id="deleteChat" class="hover:bg-red-400 bg-red-400 rounded-lg p-1">Delete</button>
-                <button id="backChat" class="hover:bg-blue-400 bg-blue-400 rounded-lg p-1">back</button>`
+                div.classList.add("flex", "flex-col", "justify-center", "items-center", "text-sm", "mt-3");
+                div.innerHTML = `<button id="editChat" class="hover:bg-red-400 rounded-lg p-1">Edit</button>
+                <button id="deleteChat" class="hover:bg-red-400 rounded-lg p-1">Delete</button>
+                <button id="backChat" class="hover:bg-blue-400 rounded-lg p-1">back</button>`
                 send.appendChild(div)
 
                 const editChat = document.getElementById("editChat")
@@ -703,10 +720,10 @@ function chatoption() {
                     div.remove()
                 })
 
-                console.log(id);
+                // console.log(id);
                 deleteChat.addEventListener("click", (e) => {
                     e.stopPropagation()
-                    if (confirm("Are you sure you want to delete this room ?")) {
+                    if (confirm("Are you sure you want to delete this chat ?")) {
                         const data = {}
                         postData(`${ulr}/api/chat/${id}`, data, "DELETE")
                             .then((res) => {
@@ -719,6 +736,7 @@ function chatoption() {
                                         chat.remove()
                                     }
                                     flage = false
+                                    count--;
                                 })
                             })
                             .catch((err) => {

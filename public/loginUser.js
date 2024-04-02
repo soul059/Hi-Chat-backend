@@ -1,8 +1,8 @@
 let email;
 let password;
 const login = document.getElementById("login")
-let ulr = "https://hi-chat-t4sd.onrender.com"
-// let ulr = "http://localhost:8000"
+// let ulr = "https://hi-chat-t4sd.onrender.com"
+let ulr = "http://localhost:8000"
 
 function error(mas){
   let err = document.getElementById("err")

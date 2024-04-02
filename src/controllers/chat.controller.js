@@ -49,10 +49,10 @@ const deleteChat = asyncHandler(async(req,res)=>{
     const {chatId}=req.params;
     
     const userId = req.user?._id
-    console.log(userId);
+    // console.log(userId);
     
     const chat =await Chat.findById(chatId)
-    console.log(chat.owner);
+    // console.log(chat.owner);
     
     //checking the owner of this chat
     if (!userId.equals(chat.owner)) {
@@ -74,6 +74,7 @@ const deleteChat = asyncHandler(async(req,res)=>{
 const getAllChatsInARoom= asyncHandler (async (req , res)=>{
     const {roomId} = req.params;
     const user = req.user?.userName;
+    const userId = req.user?._id
     const room = await Room.findById(roomId)
     if(!room){
         throw new ApiError(404,'Room does not exist')
@@ -93,7 +94,8 @@ const getAllChatsInARoom= asyncHandler (async (req , res)=>{
             $project:{
                 ownerName:1,
                 text:1,
-                createdAt:1
+                createdAt:1,
+                owner:1
             }
         }
     ])
@@ -105,7 +107,7 @@ const getAllChatsInARoom= asyncHandler (async (req , res)=>{
     return res
     .status(200)
     .json(
-        new ApiResponce(200,[chats,user],"chat are fetched Successfully")
+        new ApiResponce(200,[chats,user,userId],"chat are fetched Successfully")
         // new ApiResponce(200,chats,"chat are fetched Successfully")
     )
 
