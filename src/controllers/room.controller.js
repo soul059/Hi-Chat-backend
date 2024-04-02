@@ -66,7 +66,7 @@ const editRoom = asyncHandler(async (req,res)=>{
     room = await Room.findByIdAndUpdate(roomId,{$set:{
         name,
         discription
-    }},{new:true})
+    }},{new:true,runValidators: true})
 
     return res
     .status(200)

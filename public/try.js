@@ -6,6 +6,7 @@ let ulr = "https://hi-chat-t4sd.onrender.com"
 
 let room;
 let user;
+// let inroom = true;
 
 await(async function currentUser() {
     await fetch(`${ulr}/api/user/current`, {
@@ -30,6 +31,12 @@ await(async function currentUser() {
             throw new Error(err);
         })
 })();
+
+// function roomrelode(){
+//     if(inroom){
+//         location.reload();
+//     }
+// }
 
 document.getElementById("manual").addEventListener("click", (e) => {
     e.stopPropagation()
@@ -220,60 +227,85 @@ function recieverMessage(text, user, id, time) {
     window.scrollTo(0, scrollY);
 }
 
+
 function remakechat() {
+    let allchat = document.querySelectorAll(".Chat")
     getRoom(`${ulr}/api/chat/${room}`, "GET")
 
 
-        // .then((res) => {
-
-        //     // console.log(count);
-        //     for (let i = count; i < res.data[0].length; i++) {
-        //         // console.log("hi");
-
-        //         const data = res.data[0][i]
-        //         // console.log(data)
-        //         const text = data.text
-        //         const owner = data.ownerName
-        //         const ownerID = data.owner
-        //         const utcTimestamp = data.createdAt;
-        //         const time = new Date(utcTimestamp).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
-        //         if (data._id && document.getElementById(data._id) ? 0 : 1) {
-        //             count++;
-        //             if (ownerID == res.data[2])
-        //                 senderMassage(text, owner, data._id, time);
-        //             else
-        //                 recieverMessage(text, owner, data._id, time);
-        //         }
-        //         else {
-        //             console.log("hi");
-        //         }
-
-        //     }
-        // })
-
         .then((res) => {
-            // this code is not efficient for usage
-            res.data[0].forEach((data) => {
+            let index = [];
+            if(allchat.length > res.data[0].length){
+                for(let i=0;i<allchat.length;i++){
+                    if(!(res.data[0][i])){
+                        index.push(i)
+                        // console.log(index);
+                    }
+                    index.forEach((i)=>{
+                        allchat[i].remove()
+                        count--;
+                    })
+                }
+            }
+            if(allchat.length == res.data[0].length){
+                for(let i=0;i<count;i++){
+                    const data = res.data[0][i]
+                    const text = data.text
+                    const mas = allchat[i].children[2].innerText
+                    
+                    if(mas != text){
+                        allchat[i].children[2].innerText = text
+                    }
+                }
+            }
+
+
+            // console.log(count);
+            for (let i = count; i < res.data[0].length; i++) {
+                // console.log("hi");
+
+                const data = res.data[0][i]
+                // console.log(data)
                 const text = data.text
                 const owner = data.ownerName
+                const ownerID = data.owner
                 const utcTimestamp = data.createdAt;
                 const time = new Date(utcTimestamp).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
-                // console.log(istTime);
-                console.log(data._id,document.getElementById(data._id));
-
-                if (document.getElementById(data._id) ? 0 : 1) {
-
-                    if (owner == res.data[1])
+                if (data._id && document.getElementById(data._id) ? 0 : 1) {
+                    count++;
+                    
+                    if (ownerID == res.data[2])
                         senderMassage(text, owner, data._id, time);
                     else
                         recieverMessage(text, owner, data._id, time);
                 }
-                else if(!document.getElementById(data._id)) {
-                    console.log("hi")
-                }
 
-            })
+            }
         })
+
+        // .then((res) => {
+        //     // this code is not efficient for usage
+        //     res.data[0].forEach((data) => {
+        //         const text = data.text
+        //         const owner = data.ownerName
+        //         const utcTimestamp = data.createdAt;
+        //         const time = new Date(utcTimestamp).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+        //         // console.log(istTime);
+        //         console.log(data._id,document.getElementById(data._id));
+
+        //         if (document.getElementById(data._id) ? 0 : 1) {
+
+        //             if (owner == res.data[1])
+        //                 senderMassage(text, owner, data._id, time);
+        //             else
+        //                 recieverMessage(text, owner, data._id, time);
+        //         }
+        //         else if(!document.getElementById(data._id)) {
+        //             console.log("hi")
+        //         }
+
+        //     })
+        // })
         chatoption()
 
 
@@ -395,6 +427,7 @@ await getRoom(`${ulr}/api/room`, "GET")
 
             makeRoom(name, discription, element._id, element.owner)
         });
+        // setInterval(roomrelode,10000);
         const btn = document.querySelectorAll(".roomb");
         const del = document.querySelectorAll(".delete");
         const edit = document.querySelectorAll(".edit");
@@ -434,6 +467,7 @@ await getRoom(`${ulr}/api/room`, "GET")
 
                     .then(async (res) => {
                         // console.log(res);
+                        // inroom = false;
                         removeRoom();
                         makeChat();
                         await getRoom(`${ulr}/api/room/${room}`, "GET")
@@ -453,6 +487,7 @@ await getRoom(`${ulr}/api/room`, "GET")
                             const ownerID = data.owner
                             const utcTimestamp = data.createdAt;
                             count++;
+                            
                             const time = new Date(utcTimestamp).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
                             // console.log(res.data[2]);
                             // console.log(ownerID);
@@ -738,6 +773,7 @@ function chatoption() {
                                     }
                                     flage = false
                                     count--;
+                                    
                                 })
                             })
                             .catch((err) => {
