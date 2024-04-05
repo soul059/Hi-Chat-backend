@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creat room</title>
+    <link rel="stylesheet" href="output.css">
+</head>
+
+<body>
+    <section
+        class="flex flex-col w-screen h-screen top-0 bg-opacity-90  ml-auto mr-auto justify-center items-center absolute z-20 rounded-lg">
+        <div class="flex flex-col justify-items-center items-center">
+
+            <h1 class="text-3xl font-bold text-orange-400">Hi chat</h1>
+            <span class="mb-4">Creat Room</span>
+            <div class="mb-4" id="err"></div>
+        <form>
+            
+            <input type="text" id="name" name="name"
+            class="  mt-2 hover:border-dashed border-b border-blue-500 placeholder:text-gray-400 w-64 p-1"
+            placeholder=" Room Name...."><br>
+            <input type="text" id="discreption" name="discreption"
+            class=" mt-2 hover:border-dashed border-b border-blue-500 placeholder:text-gray-400 w-64 p-1"
+            placeholder=" Discreption..."><br>
+        </form>
+        <div class="mt-4 flex  flex-row justify-center items-center w-full gap-3">
+            <button id="creatROOM" type="button" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-blue-700 dark:text-gray-200 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Creat</button>
+                        <button id="back" type="button" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-red-400 dark:text-red-800 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Back</button>
+        </div>
+    </div>
+    </section>
+</body>
+<script src="creat room.js"></script>
+
+</html>

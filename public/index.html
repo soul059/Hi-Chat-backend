@@ -3,30 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Document</title>
     <link rel="stylesheet" href="./output.css">
 </head>
-<body class="text-xl">
-    <header id="header" class="fixed top-0 z-30 bg-opacity-60 bg-slate-100">
-        <nav id="nav" class="flex flex-row justify-around w-screen">
-          <div><a href="/index.html" class="font-bold text-orange-400">HI Chat</a></div>
-          <ul class="flex justify-center items-center">
-              <li class="flex items-center">
-                <img id="profile" src="emoji-grin-squint-svgrepo-com.svg" alt="" class="w-8 cursor-pointer">
-                <span id="Uname">Username</span>
-            </li>
-            <li class="ml-4 " id="logout"><img src="logout-svgrepo-com.svg" alt="Home" class="w-6 cursor-pointer bg-red-200 rounded-lg"></li>
-          </ul>
+<body class="text-xl bg-cyan-950">
+    <header id="nav" class="w-full mt-6">
+        <nav class="flex flex-row justify-between items-center ">
+            <svg id="sidebar" class="w-10 ml-5 bg-slate-700 rounded-lg p-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 6H20M4 12H14M4 18H9" stroke="#d1d1d1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+            <div><a href="/index.html" class="font-bold text-3xl text-white">HI Chat</a></div>
+            <svg id="profile" class="bg-slate-700 rounded-lg w-10 mr-5 p-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path opacity="0.4" d="M12.1605 10.87C12.0605 10.86 11.9405 10.86 11.8305 10.87C9.45055 10.79 7.56055 8.84 7.56055 6.44C7.56055 3.99 9.54055 2 12.0005 2C14.4505 2 16.4405 3.99 16.4405 6.44C16.4305 8.84 14.5405 10.79 12.1605 10.87Z" stroke="#cfcfcf" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M7.1607 14.56C4.7407 16.18 4.7407 18.82 7.1607 20.43C9.9107 22.27 14.4207 22.27 17.1707 20.43C19.5907 18.81 19.5907 16.17 17.1707 14.56C14.4307 12.73 9.9207 12.73 7.1607 14.56Z" stroke="#cfcfcf" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
         </nav>
     </header>
-    <div id="creatR" class="flex justify-between mt-20">
-        <button id="manual" class="bg-[#1da1f2] text-white rounded-lg self-start w-40 p-1 hover:bg-violet-800 ml-4 shadow-md">User manual</button>
-        <button id="creat" class="bg-[#1da1f2] text-white rounded-lg self-end w-40 p-1 hover:bg-violet-800 mr-4 shadow-md">Creat Room</button>
-    </div>
-    <section id="room" class="flex flex-wrap flex-row mt-16 ml-auto mr-auto justify-center sm:max-sm:flex-col items-center gap-5">
-        
+    <section id="roomdisplay" class="flex flex-wrap absolute z-50 flex-col min-h-need mt-10 ml-auto mr-auto sm:max-sm:flex-col items-center gap-5 w-full rounded-t-4xl bg-white shadow-black shadow-2xl drop-shadow-xl">
+        <section id="room" class="mt-8 flex flex-col gap-10 justify-center items-center w-full">
 
-    </section>
-    <script src="./try.js" type="module"></script>
+            
+                 
+        </section>
+            
+      </section>
+      <svg id="creatroom" class="w-12 fixed bottom-6 right-6 z-50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g opacity="0.4"> <path d="M8 12H16" stroke="#0c3464" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 16V8" stroke="#0c3464" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g> <path d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z" stroke="#0c3464" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+    <!-- this is for sidebar -->
+    <div style="display: none;" id="sideme" class=" fixed top-0 bottom-0 lg:left-0 z-50 p-2 w-[200px] h-full overflow-y-auto text-center bg-gray-900">
+        <div class="text-gray-100 text-xl">
+          <div class="p-2.5 mt-1 flex flex-row items-center">
+            <i class="bi bi-app-indicator px-2 py-1 rounded-md bg-blue-600"></i>
+            <h1 class="font-bold text-gray-200 text-[15px] ml-3">Hi chat</h1>
+            <svg id="close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-5 h-5 ml-16 cursor-pointer">
+                <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+            </svg>
+              
+          </div>
+          <div class="my-2 bg-gray-600 h-[1px]"></div>
+        </div>
+        <div
+          class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
+        >
+         
+          <span id="home" class="text-[15px] ml-4 text-gray-200 font-bold">Home</span>
+        </div>
+        <div
+          class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
+        >
+          <span id="logout" class="text-[15px] ml-4 text-gray-200 font-bold">Logout</span>
+        </div>
+        <div class="my-4 bg-gray-600 h-[1px]"></div>
+        <div
+          class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
+        >
+          <span id="manual" class="text-[15px] ml-4 text-gray-200 font-bold">User manual</span>
+        </div>
+    </div>
+
+    <!-- this is for chat -->
+    <section id="chatmaker" style="display: none;" class=" fixed top-0 z-20 min-h-chatneed rounded-b-caht w-full bg-white mb-40 ">
+        
+      <div class="w-full p-2 fixed top-0 z-30 bg-opacity-60 bg-slate-100">
+
+          <nav class="flex flex-row justify-between items-center ">
+              <svg id="back" class="w-10 ml-5  p-1" viewBox="0 0 1024 1024" fill="#000000" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#000000" stroke-width="28.672000000000004"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M669.6 849.6c8.8 8 22.4 7.2 30.4-1.6s7.2-22.4-1.6-30.4l-309.6-280c-8-7.2-8-17.6 0-24.8l309.6-270.4c8.8-8 9.6-21.6 2.4-30.4-8-8.8-21.6-9.6-30.4-2.4L360.8 480.8c-27.2 24-28 64-0.8 88.8l309.6 280z" fill=""></path></g></svg>
+              <div><a id="roomname" href="/index.html" class="font-bold text-3xl">Room Name</a></div>
+              <svg id="home" class=" w-10 mr-5 " viewBox="0 0 24 24" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css"> .st0{opacity:0.2;fill:none;stroke:#000000;stroke-width:5.000000e-02;stroke-miterlimit:10;} </style> <g id="grid_system"></g> <g id="_icons"> <path d="M7,21h10c2.2,0,4-1.8,4-4v-6.5c0-1.3-0.6-2.4-1.6-3.2l-5-3.8C13,2.5,11,2.5,9.6,3.6l-5,3.7C3.6,8.1,3,9.2,3,10.5V17 C3,19.2,4.8,21,7,21z M5,10.5c0-0.6,0.3-1.2,0.8-1.6l5-3.8c0.4-0.3,0.8-0.4,1.2-0.4s0.8,0.1,1.2,0.4l5,3.8c0.5,0.4,0.8,1,0.8,1.6 V17c0,1.1-0.9,2-2,2H7c-1.1,0-2-0.9-2-2V10.5z"></path> </g> </g></svg>
+          </nav>
+      </div>
+      <div class="allchat grid grid-cols-1 mt-16 gap-5 max-h-need overflow-auto rounded-caht massage">
+          <!-- <div id="660eb2bfa6f323404c15ff69" class="mx-4 mt-1  justify-self-end w-fit p-1 sender Chat">
+              <p class="text-wrap max-w-72 ml-2 bg-cyan-950 text-white rounded-lg rounded-br-none p-1">Hi</p>
+              <span class="text-xs self-end  mx-3"> 2/4/2024, 10:34:12 pm</span>
+          </div>
+
+          <div id="660c3a8c38190d3bc9427486" class="mx-4 mt-1 grid grid-rows-1 grid-flow-col grid-cols-chat justify-self-start w-fit rounded-lg p-1 Chat">
+              <span class="w-fit text-s justify-self-center rounded-full bg-slate-300 p-2">yoo </span>
+              <p class="text-wrap max-w-72 ml-2 text-base col-start-2 row-start-1">Hi</p>
+              <span class="text-xs self-end  mx-3 col-start-2 row-start-1"> 2/4/2024, 10:34:12 pm</span>
+          </div> -->
+      </div>
+
+  </section>
+  <!-- this is for typing -->
+  <section id="typing" style="display: none;" class="fixed flex flex-row gap-4 justify-center items-center h-33 bottom-0 -z-10 w-full bg-cyan-950 p-2">
+      
+          <input id="text" type="text" class="w-need rounded-lg p-1 mt-5 bg-cyan-800 text-white" placeholder="Type a message">
+          <svg id="send" class="w-6 mt-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M11.5003 12H5.41872M5.24634 12.7972L4.24158 15.7986C3.69128 17.4424 3.41613 18.2643 3.61359 18.7704C3.78506 19.21 4.15335 19.5432 4.6078 19.6701C5.13111 19.8161 5.92151 19.4604 7.50231 18.7491L17.6367 14.1886C19.1797 13.4942 19.9512 13.1471 20.1896 12.6648C20.3968 12.2458 20.3968 11.7541 20.1896 11.3351C19.9512 10.8529 19.1797 10.5057 17.6367 9.81135L7.48483 5.24303C5.90879 4.53382 5.12078 4.17921 4.59799 4.32468C4.14397 4.45101 3.77572 4.78336 3.60365 5.22209C3.40551 5.72728 3.67772 6.54741 4.22215 8.18767L5.24829 11.2793C5.34179 11.561 5.38855 11.7019 5.407 11.8459C5.42338 11.9738 5.42321 12.1032 5.40651 12.231C5.38768 12.375 5.34057 12.5157 5.24634 12.7972Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+
+  </section>
+    <script src="try.js" type="module"></script>
 </body>
-</html> 
+</html>
