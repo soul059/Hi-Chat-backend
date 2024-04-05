@@ -543,11 +543,7 @@ await getRoom(`${ulr}/api/room`, "GET")
             chat.addEventListener("click", (e) => {
                 e.stopPropagation();
                 // console.log(e.target.parentElement.id);
-                if (e.target.element == "div") {
-                    room = e.target.id;
-                }
-                else
-                    room = e.target.parentElement.id;
+                room = e.currentTarget.id;
 
                 chatget(room);
 
