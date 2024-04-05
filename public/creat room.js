@@ -1,4 +1,5 @@
-const url = "http://localhost:8000";
+let ulr = "https://hi-chat-t4sd.onrender.com"
+// let ulr = "http://localhost:8000"
 
 async function postData(url, data, me) {
     const response = await fetch(url, {
@@ -64,7 +65,7 @@ const creatR = document.getElementById("creatROOM");
             discription: dis
         }
 
-        postData(`${url}/api/room/create`, data, "POST")
+        postData(`${ulr}/api/room/create`, data, "POST")
             .then(() => {
                 location.href = "index.html";
             })
