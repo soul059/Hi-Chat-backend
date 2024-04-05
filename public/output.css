@@ -877,12 +877,13 @@ html {
 }
 
 .max-h-need {
-  max-height: calc(100vh - 10rem);
+  max-height: calc(100vh - 12rem);
 }
 
 .min-h-chatneed {
-  min-height: calc(100vh - 6rem);
+  min-height: calc(100vh - 8rem);
 }
+
 
 .min-h-need {
   min-height: calc(100vh - 6rem);
