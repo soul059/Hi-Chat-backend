@@ -78,7 +78,7 @@ const editRoom = asyncHandler(async (req,res)=>{
 const getRoom = asyncHandler(async (req,res)=>{
     const {roomId} = req.params
     
-    console.log(roomId);
+    // console.log(roomId);
     
     if(!roomId){
         throw new ApiError(400,"Invalid room Id")
@@ -97,7 +97,7 @@ const getRoom = asyncHandler(async (req,res)=>{
 const getAllRooms = asyncHandler(async(req,res)=>{
     const userName = req.user?.userName
     const userId = req.user?._id
-    console.log(userId);
+    // console.log(userId);
     
     const rooms = await Room.aggregate([
         {
