@@ -877,13 +877,12 @@ html {
 }
 
 .max-h-need {
-  max-height: calc(100vh - 12rem);
+  max-height: calc(100vh - 14rem);
 }
 
 .min-h-chatneed {
-  min-height: calc(100vh - 8rem);
+  min-height: calc(100vh - 10rem);
 }
-
 
 .min-h-need {
   min-height: calc(100vh - 6rem);
@@ -1852,6 +1851,11 @@ html {
   .lg\:px-8 {
     padding-left: 2rem;
     padding-right: 2rem;
+  }
+}
+@media (min-height: 800px) {
+  .tall\:max-h-chatneed {
+    max-height: calc(100vh - 12rem);
   }
 }
 
