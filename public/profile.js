@@ -1,6 +1,7 @@
 let ulr = "https://hi-chat-t4sd.onrender.com";
 // let ulr = "http://localhost:8000";
 
+let user;
 (async function currentUser() {
     await fetch(`${ulr}/api/user/current`, {
         method: "GET",
@@ -24,11 +25,11 @@ let ulr = "https://hi-chat-t4sd.onrender.com";
             document.getElementById("joined").innerText = time;
             utcTimestamp = user.updatedAt;
             time = new Date(utcTimestamp).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
-            document.getElementById("update").innerText ="updated: " + time;
+            document.getElementById("update").innerText = "updated: " + time;
         })
         .catch((err) => {
-              alert(err);
-            
+            alert(err);
+
             throw new Error(err);
         })
 })();
@@ -60,25 +61,55 @@ async function postData(url, data, me) {
 
 
 const back = document.getElementById("back");
-    const deleteuser = document.getElementById("DELETE");
-    const edit = document.getElementById("Edit");
+const deleteuser = document.getElementById("DELETE");
+const edit = document.getElementById("Edit");
 
-    edit.addEventListener("click", (e) => {
+edit.addEventListener("click", (e) => {
+    e.stopPropagation()
+
+    const sendx = document.createElement("section")
+    sendx.classList.add('fixed', 'flex', 'flex-row', 'gap-4', 'justify-center', 'items-center', 'h-33', 'bottom-0', 'z-50', 'w-full', 'bg-cyan-950', 'p-2')
+    sendx.innerHTML = `<input type="text" id="edittext" name="text" class="w-need rounded-lg p-1 mt-5 bg-cyan-800 text-gray-100" value=" ${user.userName}">
+                    <svg id="doneedit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-6 mt-5">
+  <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
+</svg>`
+
+    document.getElementById("sec").appendChild(sendx)
+
+    const edited = document.getElementById("doneedit");
+    const editedtext = document.getElementById("edittext");
+    edited.addEventListener("click", (e) => {
         e.stopPropagation()
-        const sendx = document.createElement("section")
-        sendx.classList.add("allchat", "gap-2", "bg-slate-500", "bg-opacity-55", "h-16", "items-center", "justify-center", "flex", "w-screen", "z-20", "bottom-0", "fixed", "send")
-        sendx.innerHTML = `<input type="text" id="edittext" name="text" autofocus class="ml-10 hover:border-dashed rounded-lg w-full h-10 bg-slate-200 placeholder:text-gray-400 p-1" value=" ${nameX}">
-                        <img src="check.svg" id="doneedit" class="w-8 mr-10 bg-purple-200 rounded-lg" alt="Send">`
 
-        document.body.appendChild(sendx)
+        // alert("Are you sure you want to delete your account?");
+        if (confirm("Are you sure you want to edit your account?")) {
+            const text = document.getElementById("edittext").value;
+            if (!text) {
+                error("Please write the user Name text");
+                throw new Error("Please write the user Name text");
+            }
+            // console.log(name);
 
-        const edited = document.getElementById("doneedit");
-        const editedtext = document.getElementById("edittext");
-        edited.addEventListener("click", (e) => {
-            e.stopPropagation()
+            const data = {
+                userName: text
+            }
+            postData(`${ulr}/api/user/edit`, data, "PUT")
+                .then(() => {
+                    window.location.href = "./index.html"
+                })
+                .catch((err) => {
+                    alert(err, "or username might be taken");
+                    window.location.href = "./index.html"
+                    throw new Error("username might be taken")
+                })
+        }
+    })
+    editedtext.addEventListener("keypress", (e) => {
+        // console.log(e.key);
 
-            // alert("Are you sure you want to delete your account?");
+        if (e.key === "Enter") {
             if (confirm("Are you sure you want to edit your account?")) {
+                e.stopPropagation()
                 const text = document.getElementById("edittext").value;
                 if (!text) {
                     error("Please write the user Name text");
@@ -94,63 +125,36 @@ const back = document.getElementById("back");
                         window.location.href = "./index.html"
                     })
                     .catch((err) => {
-                        alert(err,"or username might be taken");
+                        alert(err, "or username might be taken");
                         window.location.href = "./index.html"
                         throw new Error("username might be taken")
+
                     })
             }
-        })
-        editedtext.addEventListener("keypress", (e) => {
-            // console.log(e.key);
 
-            if (e.key === "Enter") {
-                if (confirm("Are you sure you want to edit your account?")) {
-                    e.stopPropagation()
-                    const text = document.getElementById("edittext").value;
-                    if (!text) {
-                        error("Please write the user Name text");
-                        throw new Error("Please write the user Name text");
-                    }
-                    // console.log(name);
-
-                    const data = {
-                        userName: text
-                    }
-                    postData(`${ulr}/api/user/edit`, data, "PUT")
-                        .then(() => {
-                            window.location.href = "./index.html"
-                        })
-                        .catch((err) => {
-                            alert(err,"or username might be taken");
-                            window.location.href = "./index.html"
-                            throw new Error("username might be taken")
-                            
-                        })
-                }
-
-            }
-        })
-    })
-
-    deleteuser.addEventListener("click", (e) => {
-        e.stopPropagation()
-        // alert("Are you sure you want to delete your account?");
-        if (confirm("Are you sure you want to delete your account?")) {
-
-            const data = {}
-            postData(`${ulr}/api/user/delete`, data, "DELETE")
-                .then(() => {
-                    window.location.href = "./login.html"
-                })
-                .catch((err) => {
-                    alert(err);
-                })
         }
     })
+})
+
+deleteuser.addEventListener("click", (e) => {
+    e.stopPropagation()
+    // alert("Are you sure you want to delete your account?");
+    if (confirm("Are you sure you want to delete your account?")) {
+
+        const data = {}
+        postData(`${ulr}/api/user/delete`, data, "DELETE")
+            .then(() => {
+                window.location.href = "./login.html"
+            })
+            .catch((err) => {
+                alert(err);
+            })
+    }
+})
 
 
-    back.addEventListener("click", (e) => {
-        console.log("your backed");
-        e.stopPropagation()
-        window.location.href = "./index.html"
-    })
+back.addEventListener("click", (e) => {
+    console.log("your backed");
+    e.stopPropagation()
+    window.location.href = "./index.html"
+})
