@@ -924,3 +924,7 @@ function chatoption() {
 
 
 
+document.addEventListener("backbutton", function() {
+    // Handle back button press
+    location.reload()
+});
