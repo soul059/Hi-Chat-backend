@@ -922,9 +922,15 @@ function chatoption() {
 }
 
 
-
-
 document.addEventListener("backbutton", function() {
     // Handle back button press
+    console.log(room);
+    
+    location.reload()
+});
+window.addEventListener("popstate", function(event) {
+    // Your code here
+    console.log(room);
+    
     location.reload()
 });
