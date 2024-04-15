@@ -2021,3 +2021,15 @@ html {
     --tw-ring-color: rgb(55 65 81 / var(--tw-ring-opacity));
   }
 }
+@keyframes sidenavani{
+  0%{
+      transform: translateY(-100%);
+  }
+  100%{
+      transform: translateY(0);
+  }
+}
+
+.sideme{
+  animation: sidenavani 0.5s ease-in-out;
+}
