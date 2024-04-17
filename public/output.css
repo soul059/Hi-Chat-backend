@@ -2022,7 +2022,8 @@ html {
   }
 }
 #sideme{
-  animation: sidenavani 1s 1;
+  /* animation: sidenavani 1s 1; */
+  transition: all 1s;
 }
 @keyframes sidenavani{
   0%{
