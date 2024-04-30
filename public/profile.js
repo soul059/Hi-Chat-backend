@@ -1,6 +1,7 @@
 let ulr = "https://hi-chat-t4sd.onrender.com";
 // let ulr = "http://localhost:8000";
 
+
 let user;
 (async function currentUser() {
     await fetch(`${ulr}/api/user/current`, {

@@ -6,6 +6,7 @@ let ulr = "https://hi-chat-t4sd.onrender.com"
 
 let room;
 let user;
+
 // let inroom = true;
 
 await(async function currentUser() {
@@ -41,9 +42,8 @@ await(async function currentUser() {
 const sidebar = document.getElementById("sidebar")
 sidebar.addEventListener("click", (e) => {
     e.stopPropagation()
+    document.getElementById("mySidenav").style.width = "250px";
     console.log("hi");
-    const sideme = document.getElementById("sideme")
-    sideme.style.display = "block"
     document.getElementById("manual").addEventListener("click", (e) => {
         e.stopPropagation()
         window.location.href = "./usermanual.html"
@@ -63,7 +63,7 @@ sidebar.addEventListener("click", (e) => {
     const close = document.getElementById("close")
     close.addEventListener("click", (e) => {
         e.stopPropagation()
-        sideme.style.display = "none"
+        document.getElementById("mySidenav").style.width = "0";
     })
     const home = document.getElementById("home")
     home.addEventListener('click', (e) => {
@@ -420,8 +420,8 @@ function removeRoom() {
     dee.style.display = "none";
 }
 
-function chatget(room) {
-    getRoom(`${ulr}/api/chat/${room}`, "GET")
+async function chatget(room) {
+    await getRoom(`${ulr}/api/chat/${room}`, "GET")
 
         .then(async (res) => {
             // console.log(res);
@@ -544,8 +544,10 @@ await getRoom(`${ulr}/api/room`, "GET")
                 e.stopPropagation();
                 // console.log(e.target.parentElement.id);
                 room = e.currentTarget.id;
-
-                chatget(room);
+                window.localStorage.setItem("room", room); 
+                
+                window.location.href = "./chat.html"
+                // chatget(room);
 
             })
         })
@@ -921,16 +923,3 @@ function chatoption() {
     })
 }
 
-
-document.addEventListener("backbutton", function() {
-    // Handle back button press
-    console.log(room);
-    
-    location.reload()
-});
-window.addEventListener("popstate", function(event) {
-    // Your code here
-    console.log(room);
-    
-    location.reload()
-});

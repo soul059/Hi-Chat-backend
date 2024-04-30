@@ -741,6 +741,9 @@ html {
 .mt-20 {
   margin-top: 5rem;
 }
+.mt-25 {
+  margin-top: 6rem;
+}
 
 .mt-4 {
   margin-top: 1rem;
@@ -2019,17 +2022,5 @@ html {
   .dark\:focus\:ring-gray-700:focus {
     --tw-ring-opacity: 1;
     --tw-ring-color: rgb(55 65 81 / var(--tw-ring-opacity));
-  }
-}
-#sideme{
-  /* animation: sidenavani 1s 1; */
-  transition: all 1s;
-}
-@keyframes sidenavani{
-  0%{
-      transform: translatex(-100%);
-  }
-  100%{
-      transform: translatex(0);
   }
 }

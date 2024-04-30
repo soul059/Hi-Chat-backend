@@ -50,13 +50,12 @@ submit.addEventListener("click", () => {
     error("Password must contain at least 8 characters and one number")
     return;
   }
-  if (!userName.match(/^[a-z0-9]{3,}$/)) {
-    error("User name must contain at least 3 lowercase characters")
+  if (!userName.match(/^[a-zA-Z0-9]{3,}$/) || userName.includes(" ")) {
+    error("User name must contain at least 3 characters and no spaces")
     return;
   }
   if (!email.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)) {
     error("Email must be in the form of name@some.com")
-    return;
   }
   const data = {
     userName,
