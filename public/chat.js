@@ -5,7 +5,32 @@ let ulr = "https://hi-chat-t4sd.onrender.com";
 let room = window.localStorage.getItem("room");
 
 
+let user;
 let count = 0;
+
+await(async function currentUser() {
+    await fetch(`${ulr}/api/user/current`, {
+        method: "GET",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    })
+        .then((res) => {
+            return res.json()
+
+            //    console.log(user.userName);
+
+        })
+        .then((res) => {
+            user = res.data;
+        })
+        .catch((err) => {
+            //   alert(err);
+            window.location.href = "./login.html"
+            throw new Error(err);
+        })
+})();
 
 async function getRoom(url, method) {
     const response = await fetch(url, {
@@ -206,17 +231,18 @@ function remakechat() {
 
 
         .then((res) => {
-            let index = [];
+            let index_res = 0;
             if (allchat.length > res.data[0].length) {
                 for (let i = 0; i < allchat.length; i++) {
-                    if (!(res.data[0][i])) {
-                        index.push(i)
-                        // console.log(index);
-                    }
-                    index.forEach((i) => {
+                    if (allchat[i].id != res.data[0][index_res]._id) {
                         allchat[i].remove()
                         count--;
-                    })
+                        index_res++;
+                        // console.log(index);
+                    }
+                    else {
+                        index_res++;
+                    }
                 }
             }
             if (allchat.length == res.data[0].length) {
