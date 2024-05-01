@@ -6,6 +6,8 @@
     <title>register</title>
   <link href="./output.css" rel="stylesheet">
   <link rel="icon" type="svg" href="logo.svg">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
 </head>
 <body class="text-xl">
  
@@ -16,8 +18,9 @@
     </div>
     <form id="get" method="post" action="/">
       <input type="text" id="name" name="fname" class="  hover:border-dashed border-b border-blue-500 placeholder:text-gray-400 w-64 p-1" placeholder=" Username..."><br>
-      <input type="email" id="email" name="email"  class="  mt-2 hover:border-dashed border-b border-blue-500 placeholder:text-gray-400 w-64 p-1" placeholder=" Email...."><br>
-      <input type="password" id="password" name="lname"  class=" mt-2 hover:border-dashed border-b border-blue-500 placeholder:text-gray-400 w-64 p-1" placeholder=" password..."><br>
+      <input type="email" id="email" name="email"  class="  mt-2 hover:border-dashed  border-b border-blue-500 placeholder:text-gray-400 w-64 p-1" placeholder=" Email...."><br>
+          <input type="password" id="password" name="password"  class=" mt-2 hover:border-dashed border-b border-blue-500 placeholder:text-gray-400 w-56 p-1" placeholder=" password...">
+          <i class="fa fa-eye" id="togglePassword"></i><br>
     </form>
     <div class="mt-4 flex  flex-row justify-center items-center w-full gap-3">
       <button class="bg-[#1da1f2] text-white rounded-lg w-64 p-1 hover:bg-violet-800" id="submit">Submit</button>

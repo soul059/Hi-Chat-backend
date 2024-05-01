@@ -5,6 +5,23 @@ const submit = document.querySelector("#submit")
 let ulr = "https://hi-chat-t4sd.onrender.com"
 // let ulr = "http://localhost:8000"
 
+const icon = document.getElementById('togglePassword');
+let passwordx = document.getElementById('password');
+
+/* Event fired when <i> is clicked */
+icon.addEventListener('click', function() {
+  if(passwordx.type === "password") {
+    passwordx.type = "text";
+    icon.classList.add("fa-eye-slash");
+    icon.classList.remove("fa-eye");
+  }
+  else {
+    passwordx.type = "password";
+    icon.classList.add("fa-eye");
+    icon.classList.remove("fa-eye-slash");
+  }
+});
+
 function error(mas){
   let err = document.getElementById("err")
   if (document.getElementById("error")?0:1){

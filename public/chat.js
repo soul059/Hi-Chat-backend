@@ -234,11 +234,17 @@ function remakechat() {
             let index_res = 0;
             if (allchat.length > res.data[0].length) {
                 for (let i = 0; i < allchat.length; i++) {
-                    if (allchat[i].id != res.data[0][index_res]._id) {
+                    if(!(res.data[0][index_res])){
+                        count--;
+                        allchat[i].remove()
+                        
+                    }
+                    
+                    else if (allchat[i].id != res.data[0][index_res]._id) {
+
                         allchat[i].remove()
                         count--;
-                        index_res++;
-                        // console.log(index);
+                        
                     }
                     else {
                         index_res++;
@@ -363,15 +369,15 @@ function chatoption() {
                                 // console.log(res);
                                 // alert("Chat Deleted");
                                 // location.reload()
-                                const allChat = document.querySelectorAll(".Chat")
-                                allChat.forEach((chat) => {
-                                    if (chat.id == id) {
-                                        chat.remove()
-                                    }
+                                // const allChat = document.querySelectorAll(".Chat")
+                                // allChat.forEach((chat) => {
+                                //     if (chat.id == id) {
+                                //         chat.remove()
+                                //     }
+                                //     count--;
+                                
+                                // })
                                     flage = false
-                                    count--;
-
-                                })
                             })
                             .catch((err) => {
                                 alert(err);

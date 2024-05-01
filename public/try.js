@@ -60,11 +60,6 @@ sidebar.addEventListener("click", (e) => {
                 alert(err);
             })
     })
-    const close = document.getElementById("close")
-    close.addEventListener("click", (e) => {
-        e.stopPropagation()
-        document.getElementById("mySidenav").style.width = "0";
-    })
     const home = document.getElementById("home")
     home.addEventListener('click', (e) => {
         e.stopPropagation()
