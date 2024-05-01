@@ -3,6 +3,7 @@ import { Room } from "../models/room.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponce } from "../utils/ApiResponce.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { Chat } from "../models/chat.model.js";
 
 const createRoom = asyncHandler(async (req,res)=>{
     const {name , discription} = req.body
@@ -35,8 +36,9 @@ const deleteRoom = asyncHandler(async (req,res)=>{
       throw new ApiError(403, 'You do not have permission to perform this action');
     }
     const deleted = await Room.findByIdAndDelete(roomId)
-    if(!deleted){
-        throw new ApiError(500,"ther is an problem ehile deleteing room")
+    const roomChatDeleted = await Chat.deleteMany({room: roomId})
+    if(!deleted || !roomChatDeleted){
+        throw new ApiError(500,"there is an problem ehile deleteing room")
     }
 
     return res

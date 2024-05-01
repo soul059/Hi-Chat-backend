@@ -152,6 +152,7 @@ const editUsername = asyncHandler(async(req,res)=>{
         throw new ApiError(401,"Problem while requesting user")
     }
     const {userName} = req.body
+    userName.trim()
     if(!userName){
         throw new ApiError(400,"Please provide username")
     }
