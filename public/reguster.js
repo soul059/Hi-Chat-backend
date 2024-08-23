@@ -63,8 +63,8 @@ submit.addEventListener("click", () => {
   userName = document.getElementById("name").value
   email = document.getElementById("email").value
   password = document.getElementById("password").value
-  if (!password.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)) {
-    error("Password must contain at least 8 characters and one number")
+  if (!password.match(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)) {
+    error("Password must contain at least 8 characters, one number, one capital letter, and one special character");
     return;
   }
   if (!userName.match(/^[a-zA-Z0-9]{3,}$/) || userName.includes(" ")) {
